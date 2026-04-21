@@ -1,30 +1,26 @@
-import { AudioIcon, ImageIcon, VideoIcon } from "../../../shared/icons";
-
-const tabs = [
-  { label: "Image", icon: ImageIcon },
-  { label: "Video", icon: VideoIcon },
-  { label: "Audio", icon: AudioIcon },
+const MODES = [
+  { value: "image", label: "Image" },
+  { value: "video", label: "Video" },
+  { value: "audio", label: "Audio" },
 ];
 
-export default function GenerationModeTabs({ activeMode, onChange }) {
+export default function GenerationModeTabs({ value, onChange }) {
   return (
-    <div className="mode-tabs">
-      {tabs.map(({ label, icon: Icon }) => {
-        const disabled = label !== "Image";
-        return (
-          <button
-            key={label}
-            type="button"
-            className={`mode-tabs__item ${activeMode === label ? "is-active" : ""}`}
-            onClick={() => !disabled && onChange(label)}
-            disabled={disabled}
-          >
-            <Icon className="mode-tabs__icon" />
-            {label}
-            {disabled && <span className="mode-tabs__tag">Soon</span>}
-          </button>
-        );
-      })}
+    <div className="mode-tabs" role="tablist" aria-label="Generation mode">
+      {MODES.map((mode) => (
+        <button
+          key={mode.value}
+          type="button"
+          role="tab"
+          aria-selected={value === mode.value}
+          className={`mode-tabs__item ${
+            value === mode.value ? "mode-tabs__item--active" : ""
+          }`}
+          onClick={() => onChange(mode.value)}
+        >
+          {mode.label}
+        </button>
+      ))}
     </div>
   );
 }
