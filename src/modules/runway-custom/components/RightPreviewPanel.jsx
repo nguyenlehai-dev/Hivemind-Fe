@@ -1,5 +1,5 @@
-import PreviewStage from "./PreviewStage";
 import JobStatusPanel from "./JobStatusPanel";
+import PreviewStage from "./PreviewStage";
 
 const presets = [
   "Seedance 2.0",

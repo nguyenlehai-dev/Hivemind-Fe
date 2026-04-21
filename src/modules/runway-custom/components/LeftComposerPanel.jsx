@@ -1,7 +1,7 @@
-import ReferenceSlots from "./ReferenceSlots";
-import PromptComposer from "./PromptComposer";
-import AssetPanel from "./AssetPanel";
 import ActionBar from "./ActionBar";
+import AssetPanel from "./AssetPanel";
+import PromptComposer from "./PromptComposer";
+import ReferenceSlots from "./ReferenceSlots";
 
 export default function LeftComposerPanel(props) {
   return (

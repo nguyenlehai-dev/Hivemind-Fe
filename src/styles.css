@@ -94,10 +94,18 @@ button {
 }
 
 .sidebar__glyph {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(20, 89, 255, 0.08);
+}
+
+.sidebar__glyph svg {
   width: 18px;
   height: 18px;
-  border-radius: 5px;
-  border: 1px solid currentColor;
 }
 
 .workspace {
@@ -147,6 +155,11 @@ button {
   gap: 8px;
   padding: 12px 18px;
   background: transparent;
+}
+
+.mode-tabs__icon {
+  width: 18px;
+  height: 18px;
 }
 
 .mode-tabs__item.is-active {
@@ -347,6 +360,7 @@ button {
   padding: 0 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: var(--panel-strong);
   border: 1px solid var(--line);
 }
@@ -354,14 +368,35 @@ button {
 .field-pill {
   min-width: 84px;
   justify-content: center;
+  gap: 8px;
 }
 
 .generate-button,
 .modal__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   background: linear-gradient(135deg, #1459ff, #5d2eff);
   color: #fff;
   padding: 0 22px;
   min-height: 54px;
+}
+
+.field-button__content {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.button-icon--muted {
+  color: var(--muted);
 }
 
 .generate-button:disabled,
@@ -514,6 +549,12 @@ button {
 .model-card__top {
   display: flex;
   justify-content: space-between;
+  gap: 8px;
+}
+
+.model-card__title {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
 }
 
