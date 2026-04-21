@@ -1,5 +1,7 @@
-import RunwayCustomPage from "./modules/runway-custom/RunwayCustomPage";
+import { RouterProvider } from "react-router-dom";
+
+import { router } from "./router";
 
 export default function App() {
-  return <RunwayCustomPage />;
+  return <RouterProvider router={router} />;
 }
