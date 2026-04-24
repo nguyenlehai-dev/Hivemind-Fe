@@ -1,43 +1,34 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { queryKeys } from "../../../shared/lib/queryKeys";
 import { disconnect, getAuthStatus, login, verifyOtp } from "../api/authApi";
-
-const AUTH_KEY = ["runway", "auth", "status"];
 
 export function useAuthStatus() {
   return useQuery({
-    queryKey: AUTH_KEY,
+    queryKey: queryKeys.auth.status(),
     queryFn: getAuthStatus,
     staleTime: 30_000,
   });
 }
 
-export function useLogin() {
+function useAuthMutation(mutationFn) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: login,
+    mutationFn,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: AUTH_KEY });
+      queryClient.invalidateQueries({ queryKey: queryKeys.auth.status() });
     },
   });
+}
+
+export function useLogin() {
+  return useAuthMutation(login);
 }
 
 export function useVerifyOtp() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: verifyOtp,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: AUTH_KEY });
-    },
-  });
+  return useAuthMutation(verifyOtp);
 }
 
 export function useDisconnect() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: disconnect,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: AUTH_KEY });
-    },
-  });
+  return useAuthMutation(disconnect);
 }
