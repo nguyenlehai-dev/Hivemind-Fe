@@ -1,4 +1,4 @@
-import AuthModal from "../../modules/runway-custom/components/AuthModal";
+import AuthModal from "../../modules/custom/components/AuthModal";
 import AppFooter from "./AppFooter";
 import AppHeader from "./AppHeader";
 import AppSidebar from "./AppSidebar";
@@ -9,12 +9,19 @@ export default function AppShell({
   headerVariant = "light",
   withSidebar = false,
   className = "",
+  navItems,
+  onOpenWorkflow,
 }) {
   const rootClass = `app-shell ${withSidebar ? "app-shell--with-sidebar" : ""} ${className}`.trim();
 
   return (
     <div className={rootClass}>
-      <AppHeader variant={headerVariant} showNav={!withSidebar} />
+      <AppHeader
+        variant={headerVariant}
+        showNav={!withSidebar}
+        navItems={navItems}
+        onOpenWorkflow={onOpenWorkflow}
+      />
       {withSidebar ? (
         <div className="app-shell__layout">
           <AppSidebar />

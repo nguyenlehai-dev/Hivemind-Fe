@@ -1,5 +1,3 @@
-import { useEffect, useRef } from "react";
-
 import { useGenerationStore } from "../store/useGenerationStore";
 
 const PLACEHOLDER = {
@@ -11,15 +9,9 @@ const PLACEHOLDER = {
 export default function PromptComposer({ onSubmit }) {
   const mode = useGenerationStore((s) => s.activeMode);
   const prompt = useGenerationStore((s) => s.drafts[s.activeMode].prompt);
+  const selectedPreset = useGenerationStore((s) => s.selectedPresetByMode[s.activeMode]);
   const setPrompt = useGenerationStore((s) => s.setPrompt);
-  const textareaRef = useRef(null);
-
-  useEffect(() => {
-    const el = textareaRef.current;
-    if (!el) return;
-    el.style.height = "auto";
-    el.style.height = `${Math.min(el.scrollHeight, 320)}px`;
-  }, [prompt]);
+  const setPromptCounter = useGenerationStore((s) => s.setPromtCoumter);
 
   function handleKeyDown(event) {
     if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
@@ -29,21 +21,32 @@ export default function PromptComposer({ onSubmit }) {
   }
 
   return (
-    <div className="prompt-composer">
+    <div
+      className={`prompt-composer${
+        selectedPreset ? " prompt-composer--preset" : ""
+      }`}
+    >
+      {selectedPreset && (
+        <div className="preset-field__label preset-field__label--inline">
+          <span>Additional Direction</span>
+          <em>Optional</em>
+        </div>
+      )}
       <textarea
-        ref={textareaRef}
         className="prompt-composer__textarea"
-        placeholder={PLACEHOLDER[mode] ?? PLACEHOLDER.image}
+        placeholder={
+          selectedPreset
+            ? "Add extra direction, constraints, or output notes."
+            : (PLACEHOLDER[mode] ?? PLACEHOLDER.image)
+        }
         value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
+        onChange={(e) => {
+          setPrompt(e.target.value);
+          setPromptCounter(e.target.value.length);
+        }}
         onKeyDown={handleKeyDown}
-        rows={3}
+        rows={1}
       />
-      <div className="prompt-composer__toolbar">
-        <span className="prompt-composer__hint">
-          <kbd>⌘</kbd> / <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to generate
-        </span>
-      </div>
     </div>
   );
 }

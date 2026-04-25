@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ModalShell from "../../../shared/ui/ModalShell";
+import TextInput from "../../../shared/ui/TextInput";
 import { MODAL_KEYS, useUiStore } from "../../../shared/store/useUiStore";
-import { useGenerationStore } from "../../runway-custom/store/useGenerationStore";
+import { useGenerationStore } from "../../custom/store/useGenerationStore";
 import { useCreateApp } from "../hooks/useApps";
 
 export default function SaveAsAppModal() {
@@ -58,7 +59,7 @@ export default function SaveAsAppModal() {
 
         <div className="auth-form__field">
           <label htmlFor="app-name">Name</label>
-          <input
+          <TextInput
             id="app-name"
             type="text"
             required
@@ -70,7 +71,7 @@ export default function SaveAsAppModal() {
 
         <div className="auth-form__field">
           <label htmlFor="app-desc">Description (optional)</label>
-          <input
+          <TextInput
             id="app-desc"
             type="text"
             value={description}

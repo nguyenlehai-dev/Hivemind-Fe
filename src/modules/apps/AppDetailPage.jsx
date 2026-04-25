@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import AppShell from "../../shared/ui/AppShell";
-import { useUploadAsset } from "../runway-custom/hooks/useUploadAsset";
+import TextInput from "../../shared/ui/TextInput";
+import { useUploadAsset } from "../custom/hooks/useUploadAsset";
 import { useApp, useDeleteApp, useRunApp, useUpdateApp } from "./hooks/useApps";
 
 export default function AppDetailPage() {
@@ -278,11 +279,11 @@ function AppEditSection({ app }) {
       <div className="app-edit-form">
         <div className="app-edit-form__field">
           <label>Name</label>
-          <input value={name} onChange={(e) => setName(e.target.value)} />
+          <TextInput value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div className="app-edit-form__field">
           <label>Description</label>
-          <input
+          <TextInput
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -311,7 +312,7 @@ function AppEditSection({ app }) {
           </div>
           <div className="app-edit-form__field">
             <label>Seed</label>
-            <input
+            <TextInput
               type="number"
               placeholder="(random)"
               value={seed}

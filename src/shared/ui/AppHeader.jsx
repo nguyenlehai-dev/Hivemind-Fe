@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 
-import { useAuthStatus } from "../../modules/runway-custom/hooks/useAuth";
+import { useAuthStatus } from "../../modules/custom/hooks/useAuth";
 import { MODAL_KEYS, useUiStore } from "../store/useUiStore";
 
 const NAV_ITEMS = [
@@ -9,7 +9,12 @@ const NAV_ITEMS = [
   { to: "/jobs", label: "Jobs" },
 ];
 
-export default function AppHeader({ variant = "light", showNav = true }) {
+export default function AppHeader({
+  variant = "light",
+  showNav = true,
+  navItems = NAV_ITEMS,
+  onOpenWorkflow,
+}) {
   const openModal = useUiStore((s) => s.openModal);
   const { data: authStatus } = useAuthStatus();
 
@@ -28,18 +33,29 @@ export default function AppHeader({ variant = "light", showNav = true }) {
 
         {showNav && (
           <nav className="app-header__nav">
-            {NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
-                className={({ isActive }) =>
-                  `app-header__link ${isActive ? "app-header__link--active" : ""}`
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
+            {navItems.map((item) =>
+              item.onClick ? (
+                <button
+                  key={item.label}
+                  type="button"
+                  className={`app-header__link ${item.isActive ? "app-header__link--active" : ""}`}
+                  onClick={item.onClick}
+                >
+                  {item.label}
+                </button>
+              ) : (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={item.end}
+                  className={({ isActive }) =>
+                    `app-header__link ${isActive ? "app-header__link--active" : ""}`
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              ),
+            )}
           </nav>
         )}
 
@@ -60,9 +76,19 @@ export default function AppHeader({ variant = "light", showNav = true }) {
               <span className="auth-pill__label">Connect Runway</span>
             )}
           </button>
-          <Link to="/custom" className="estate-button estate-button--small">
-            Open workflow
-          </Link>
+          {onOpenWorkflow ? (
+            <button
+              type="button"
+              className="estate-button estate-button--small"
+              onClick={onOpenWorkflow}
+            >
+              Open workflow
+            </button>
+          ) : (
+            <Link to="/custom" className="estate-button estate-button--small">
+              Open workflow
+            </Link>
+          )}
         </div>
       </div>
     </header>

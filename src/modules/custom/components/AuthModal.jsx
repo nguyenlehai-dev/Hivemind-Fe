@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import ModalShell from "../../../shared/ui/ModalShell";
+import TextInput from "../../../shared/ui/TextInput";
 import { MODAL_KEYS, useUiStore } from "../../../shared/store/useUiStore";
 import {
   useAuthStatus,
@@ -145,7 +146,7 @@ export default function AuthModal() {
 
           <div className="auth-form__field">
             <label htmlFor="auth-email">Email</label>
-            <input
+            <TextInput
               id="auth-email"
               type="email"
               autoComplete="username"
@@ -157,7 +158,7 @@ export default function AuthModal() {
 
           <div className="auth-form__field">
             <label htmlFor="auth-password">Password</label>
-            <input
+            <TextInput
               id="auth-password"
               type="password"
               autoComplete="current-password"
@@ -204,7 +205,7 @@ export default function AuthModal() {
 
           <div className="auth-form__field">
             <label htmlFor="auth-otp">OTP code</label>
-            <input
+            <TextInput
               id="auth-otp"
               type="text"
               inputMode="numeric"

@@ -1,10 +1,10 @@
 import ModalShell from "../../../shared/ui/ModalShell";
 import ResultMedia from "../../../shared/ui/ResultMedia";
 import { MODAL_KEYS, useUiStore } from "../../../shared/store/useUiStore";
-import { useCancelGeneration } from "../../runway-custom/hooks/useCancelGeneration";
-import { useGenerationJob } from "../../runway-custom/hooks/useGenerationJob";
-import { useRemixJob } from "../../runway-custom/hooks/useRemixJob";
-import { useRetryGeneration } from "../../runway-custom/hooks/useRetryGeneration";
+import { useCancelGeneration } from "../../custom/hooks/useCancelGeneration";
+import { useGenerationJob } from "../../custom/hooks/useGenerationJob";
+import { useRemixJob } from "../../custom/hooks/useRemixJob";
+import { useRetryGeneration } from "../../custom/hooks/useRetryGeneration";
 
 export default function JobDetailModal() {
   const isOpen = useUiStore((s) => s.activeModal === MODAL_KEYS.RESULT_DETAIL);
@@ -157,8 +157,6 @@ export default function JobDetailModal() {
                   className="estate-button estate-button--ghost"
                   href={resultUrl}
                   download
-                  target="_blank"
-                  rel="noreferrer"
                 >
                   Download
                 </a>

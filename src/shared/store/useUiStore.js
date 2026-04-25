@@ -2,7 +2,6 @@ import { create } from "zustand";
 
 export const MODAL_KEYS = {
   AUTH: "auth",
-  MODEL_PICKER: "model-picker",
   ASSET_UPLOAD: "asset-upload",
   ASSET_PREVIEW: "asset-preview",
   ADVANCED_SETTINGS: "advanced-settings",

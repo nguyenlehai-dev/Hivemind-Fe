@@ -2,9 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 
 import AppDetailPage from "./modules/apps/AppDetailPage";
 import AppsPage from "./modules/apps/AppsPage";
-import CustomWorkflowPage from "./modules/runway-custom/CustomWorkflowPage";
+import CustomWorkflowPage from "./modules/custom/CustomWorkflowPage";
 import JobsPage from "./modules/jobs/JobsPage";
-import RunwayCustomPage from "./modules/runway-custom/RunwayCustomPage";
+import RunwayCustomPage from "./modules/custom/RunwayCustomPage";
 import NotFoundPage from "./shared/ui/NotFoundPage";
 
 export const router = createBrowserRouter([

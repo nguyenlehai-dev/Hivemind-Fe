@@ -1,4 +1,5 @@
 import ModalShell from "../../../shared/ui/ModalShell";
+import TextInput from "../../../shared/ui/TextInput";
 import { MODAL_KEYS, useUiStore } from "../../../shared/store/useUiStore";
 import { useGenerationStore } from "../store/useGenerationStore";
 
@@ -15,6 +16,7 @@ export default function AdvancedSettingsModal() {
   const mode = useGenerationStore((s) => s.activeMode);
   const settings = useGenerationStore((s) => s.drafts[s.activeMode].settings);
   const setSettings = useGenerationStore((s) => s.setSettings);
+  const promtCounter = useGenerationStore((s) => s.promtCounter);
 
   const aspectRatios = ASPECT_RATIOS[mode] ?? [];
 
@@ -57,7 +59,7 @@ export default function AdvancedSettingsModal() {
             >
               −
             </button>
-            <input
+            <TextInput
               id="settings-outputs"
               type="number"
               min={1}
@@ -86,7 +88,7 @@ export default function AdvancedSettingsModal() {
         <div className="settings-form__field">
           <label htmlFor="settings-seed">Seed</label>
           <div className="settings-form__seed">
-            <input
+            <TextInput
               id="settings-seed"
               type="number"
               placeholder="Random"

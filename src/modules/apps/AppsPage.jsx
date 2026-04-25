@@ -31,12 +31,13 @@ export default function AppsPage() {
             <span className="estate-eyebrow">Apps</span>
             <h1>Saved presets</h1>
             <p>
-              Apps là preset của composer (mode + model + prompt + settings).
-              Lưu từ Custom page, chạy lại bất kỳ lúc nào mà không phải nhập lại.
+              Apps là workflow preset của composer. Chúng dùng chung layout với
+              Custom, nhưng có thể mang thêm field, prompt structure, và setting
+              riêng cho từng mục đích.
             </p>
           </div>
 
-          {isLoading && <div className="jobs-empty">Đang tải…</div>}
+          {isLoading && <div className="jobs-empty">Đang tải...</div>}
 
           {isError && (
             <div className="jobs-empty jobs-empty--error">
@@ -130,7 +131,7 @@ export default function AppsPage() {
                       }
                     >
                       {runMutation.isPending && runMutation.variables?.appId === app.id
-                        ? "Running…"
+                        ? "Running..."
                         : "Quick run"}
                     </button>
                   </div>
