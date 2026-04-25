@@ -1,5 +1,7 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback } from "react";
 
+import { useFileUpload } from "../../../shared/hooks/useFileUpload";
+import { getErrorMessage } from "../../../shared/lib/getErrorMessage";
 import { MODAL_KEYS, useUiStore } from "../../../shared/store/useUiStore";
 import { useUploadAsset } from "../hooks/useUploadAsset";
 import { useGenerationStore } from "../store/useGenerationStore";
@@ -15,34 +17,13 @@ export default function ReferenceDropzone() {
   const removeReference = useGenerationStore((s) => s.removeReference);
   const openModal = useUiStore((s) => s.openModal);
   const upload = useUploadAsset();
-  const [uploading, setUploading] = useState(0);
-  const inputRef = useRef(null);
 
-  const handleFiles = useCallback(
-    async (fileList) => {
-      const files = Array.from(fileList || []).slice(
-        0,
-        MAX_SLOTS - references.length,
-      );
-      if (!files.length) return;
-      setUploading((n) => n + files.length);
-      try {
-        await Promise.all(
-          files.map(async (file) => {
-            try {
-              const asset = await upload.mutateAsync(file);
-              addReference(asset);
-            } catch {
-              /* swallow; error shown via upload.error */
-            }
-          }),
-        );
-      } finally {
-        setUploading((n) => Math.max(0, n - files.length));
-      }
-    },
-    [references.length, upload, addReference],
-  );
+  const fileUpload = useFileUpload({
+    uploadMutation: upload,
+    max: MAX_SLOTS,
+    currentCount: references.length,
+    onUploaded: addReference,
+  });
 
   const onPaste = useCallback(
     (event) => {
@@ -57,22 +38,23 @@ export default function ReferenceDropzone() {
       }
       if (imageFiles.length) {
         event.preventDefault();
-        handleFiles(imageFiles);
+        fileUpload.handleFiles(imageFiles);
       }
     },
-    [handleFiles],
+    [fileUpload],
   );
 
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-      handleFiles(event.dataTransfer.files);
+      fileUpload.handleFiles(event.dataTransfer.files);
     },
-    [handleFiles],
+    [fileUpload],
   );
 
   const slots = Array.from({ length: MAX_SLOTS }, (_, i) => references[i] ?? null);
   const canAdd = references.length < MAX_SLOTS;
+  const uploadError = getErrorMessage(upload);
 
   return (
     <div
@@ -116,10 +98,10 @@ export default function ReferenceDropzone() {
               <button
                 type="button"
                 className="reference-slot__add"
-                onClick={() => inputRef.current?.click()}
-                disabled={uploading > 0}
+                onClick={fileUpload.openPicker}
+                disabled={upload.isPending}
               >
-                {uploading > 0 ? "…" : "+"}
+                {upload.isPending ? "…" : "+"}
               </button>
             ) : (
               <span className="reference-slot__placeholder" />
@@ -136,21 +118,9 @@ export default function ReferenceDropzone() {
           Without it, result will fall back to mock.
         </p>
       )}
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        multiple
-        hidden
-        onChange={(e) => {
-          handleFiles(e.target.files);
-          e.target.value = "";
-        }}
-      />
-      {upload.isError && (
-        <p className="reference-dropzone__error">
-          Upload failed: {upload.error?.response?.data?.error?.message ?? upload.error?.message}
-        </p>
+      <input {...fileUpload.inputProps} />
+      {uploadError && (
+        <p className="reference-dropzone__error">Upload failed: {uploadError}</p>
       )}
     </div>
   );
